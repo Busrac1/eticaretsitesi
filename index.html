@@ -1,60 +1,59 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0"
-    />
-    <title>Document</title>
-    <link rel="stylesheet" href="style.css" />
-  </head>
-  <body>
-    <!-- Üst kısım -->
-    <header>
-      <h1 style="text-transform: uppercase;">choose your trip</h1>
-      <input type="text" placeholder="select country name..." />
-      <div>
-        <button id="sepet-btn">Basket</button>
-        <button>Sign up</button>
-        <button>Login in</button>
-      </div>
-    </header>
 
-    <!-- Ana İçerik -->
-    <main>
-      <!-- Kategoriler -->
-      <section id="category-sec">
-        <h1>Categories</h1>
-        <div class="categories">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
 
-        </div>
-      </section>
-      <!-- Ürünler -->
-      <section id="product-sec">
-        <h1>Products</h1>
-        <div class="products"></div>
-      </section>
-    </main>
-
-    <!-- Modal -->
-    <div class="modal-wrapper active">
-      <div class="modal-inner">
-        
-        <div class="icon">
-          <img id="close-btn" src="images/icons8 (2).png" />
-        </div>
-        <!-- modalın liste alanı -->
-        <div class="list"></div>
-        <!-- sepetin toplam fiyatı -->
-        <p class="total-p">
-          Toplam
-          <span class="total-span">500</span>
-          $
-        </p>
-      </div>
+<body>
+  <!-- Üst kısım -->
+  <header>
+    <h1 style="text-transform: uppercase;">choose your trip</h1>
+    <input type="text" placeholder="select country name..." />
+    <div>
+      <button id="sepet-btn">Basket</button>
+      <button>Sign up</button>
+      <button>Login in</button>
     </div>
+  </header>
 
-    <script src="main.js" type="module"></script>
-  </body>
+  <!-- Ana İçerik -->
+  <main>
+    <!-- Kategoriler -->
+    <section id="category-sec">
+      <h1>Categories</h1>
+      <div class="categories">
+
+      </div>
+    </section>
+
+    <!-- Ürünler -->
+    <section id="product-sec">
+      <h1>Products</h1>
+      <div class="products"></div>
+    </section>
+  </main>
+
+  <!-- Modal ** active sepetin sürekli açık kalmasını sağlar-->
+  <div class="modal-wrapper">
+    <div class="modal-inner">
+
+      <div class="icon">
+        <img id="close-btn" src="images/icons8 (2).png" />
+      </div>
+      
+      <!-- modalın liste alanı -->
+      <div class="list"></div>
+      <!-- modal toplam fiya -->
+      <p class="total-p">Toplam:</p>
+      <span class="total-span">500$ </span> 
+     </div>
+  </div>
+
+  <script src="main.js" type="module"></script>
+</body>
+
 </html>

@@ -2,7 +2,7 @@
 import { 
   renderCategories, 
   renderProducts,  
-
+  renderBasketItem,
  } from './ui.js';
 
 
@@ -45,15 +45,15 @@ let globalData= [];
       const data = await res.json();
 
       // veriyi bütün dosay tarafında erişilebilir yapma
-      globalData.data;
+      globalData = data
 
       // bu veriyi ekrana bas
       renderProducts(data);
     } catch (err) {
       //TODO eğer hata olursa hatayı yönet
-      console.log(err);
+      // console.log(err);
     }
-    console.log(globalData);
+    // console.log(globalData);
   }
 
  
@@ -62,26 +62,34 @@ let globalData= [];
   // .then ve await aynı şey ancak thende kendisi hatayı bulur 
   // ancak diğerinmde hatayı biz kendimiz yazarak buluruz.
 
+
 // sepete eklenenleri tutacağımız dizi
 let basket= [];
+let total=0;
 
   // sepet işlemelri
   const modal = document.querySelector('.modal-wrapper');
   const sepetBtn = document.querySelector('#sepet-btn');
   const closeBtn = document.querySelector('#close-btn');
-
+  const basketList= document.querySelector('.list')
+  const modalInfo= document.querySelector('.total-span')
  // sepete basılma olayını izleme
 sepetBtn.addEventListener('click', () => {
   
   // modalı görünür yapma
   modal.classList.add('active');
   // modalın içerisine sepetteki ürünleri listeleme
-  
+  addList();
 });
 
 closeBtn.addEventListener('click', ()=> {
    modal.classList.remove('active');
-
+    
+  //  spetin içindeki html yi temizle
+  basketList.innerHTML = '';
+  console.log(modalInfo)
+  modalInfo.textContent= "0";
+  total= 0;
     });
 
     // sepet ve close dışındaki herhangi bir yere tıklayınca sepet kapansın
@@ -91,15 +99,19 @@ closeBtn.addEventListener('click', ()=> {
      var clickEl=e.target;
     //  eleman içerip içermediğini kontrol etmek=contains
      if(clickEl.classList.contains("modal-wrapper")){
-          modal.classList.remove('active')
-     }
+          modal.classList.remove('active');
+          basketList.innerHTML = '';
+          
+          total= 0;
+          modalInfo.textContent= "0";
+     } 
      });
 
 
    // bütün tıklanma olaylarını izleme
   // *** hangi elemena tıkladığmıza dair bilgi verir: e.target
 document.body.addEventListener('click', findItem);
-
+// html tarafından tıklanılan elemanı tespit etme
 function findItem(e){
 const ele= e.target;
 if(ele.id === 'add-btn'){
@@ -107,14 +119,26 @@ if(ele.id === 'add-btn'){
  const selected=globalData.find(
   (product) => product.id == ele.dataset.id
  );
-  console.log(ele);
+  // console.log(ele);
 //  miktar değeri yoksa 1 eşitlenir.
 // verileri tutmak için dizi kullanırız.
 if(!selected.amount){
   selected.amount= 1;
-   console.log(selected);
+  //  console.log(selected);
 }
  addToBasket(selected);
+}
+
+// tıklanılan eleman sepetteki sil 
+if(ele.id=== 'del-btn'){
+  // btn kapsayıcısını ekrandan kaldırmak-htmlden
+  // dizidde de kaldır. tekrar sepete düşmesi
+  ele.parentElement.remove();
+// dizide bul
+const selected= globalData.find((i)=> i.id== ele.dataset.id);
+
+   deleteItem(selected);
+
 }
 }
 
@@ -132,3 +156,47 @@ function addToBasket(product){
    basket.push(product);
  }
 }
+
+
+// ürünleri sepete aktarma fonks
+function addList(){
+  basket.forEach((product)=> {
+
+    // ürünü ekrana basma
+    renderBasketItem(product);
+
+    // toplam fiyat güncelleme
+    total += product.price* product.amount
+  });
+
+  // toplam fiyatı güncelleme
+  modalInfo.textContent= total;
+}
+
+
+
+//  ürünü diziden kaldırm
+function deleteItem(deletingItem){
+  // itemlerin id silinecek id eşit değilse yeni dizi oluştur
+const filteredData= basket.filter(
+  (item)=> item.id !== deletingItem.id);
+// sepeti güncelleme
+basket=filteredData
+
+// toplam fiyatı günvelleme
+total -= deletingItem.price * deletingItem.amount;
+modalInfo.textContent= total;
+}
+
+// sepetteki toplamı bumak içim
+
+// **function totalPrice(){
+//   let totalPrice= 0;
+
+//   for(let i=0; i<basket.length; i++){
+//     totalPrice += basket[i].price * basket[i].amount;
+//   }
+//        return totalPrice;
+  
+// }
+// console.log(totalPrice)

@@ -2,6 +2,7 @@
 
 const categoryList = document.querySelector('.categories');
 const productList = document.querySelector('.products');
+const basketList= document.querySelector('.list');
 
 
 
@@ -63,3 +64,25 @@ export function renderProducts(products) {
       });
   }
 
+
+
+  // ürünü ekrana basma fonk.
+  export function renderBasketItem(product){
+    console.log(product);
+   const basketItem= document.createElement("div")
+   basketItem.classList.add("list-item")
+
+  // ! images[0] elemanı aldık çünkü dizi ve biz ilk elemaı ekrana yazmasını istiyoruz
+   basketItem.innerHTML= `
+  
+   <img src="${product.images[0]}" alt="">
+   <h2>${product.title}</h2>
+   <h2>${product.price}</h2>
+   <p>Miktar: ${product.amount}</p>
+   <button id= "del-btn" data-id=${product.id}>sil</button>
+ 
+  
+   `;
+
+   basketList.appendChild(basketItem);
+  }
